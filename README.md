@@ -38,11 +38,11 @@ it is the engine that this page loads.
 - Unpack or copy the **whole folder** first. `index.html` on its own does not
   work: it loads `launcher.js`, `engines.js` and the `engine/` folder from
   beside itself.
-- Any current Chromium browser, 137 or newer, runs all three: Chrome, Edge,
-  Brave, Opera, Vivaldi. Brave, Opera and Vivaldi are the same engine family and
-  behave the same way; Chrome and Edge are the pair tested here. GZDoom 4.14.2
-  also starts in Firefox; the other two need a Firefox setting turned on. Safari
-  cannot run them.
+- Any current Chromium browser, 137 or newer, runs all three — Chrome, Edge,
+  Brave, Opera, Vivaldi. They are one engine family and behave the same way;
+  Chrome and Edge are the pair tested here. GZDoom 4.14.2 also starts in
+  Firefox; the other two need a Firefox setting turned on. Safari cannot run
+  them.
 
 ### 2. Get a game file (a "WAD")
 
@@ -341,8 +341,8 @@ Blob worker at runtime. The engine binary itself is unchanged.
 ## Browser support and limits
 
 - Any current Chromium browser, 137 or newer — Chrome, Edge, Brave, Opera,
-  Vivaldi (JSPI stable). Brave, Opera and Vivaldi are the same engine family and
-  behave the same; the tested pair here is Chrome/Edge. Firefox 128+ needs
+  Vivaldi (JSPI stable): one engine family, behaving the same, with the first two
+  as the tested pair. Firefox 128+ needs
   `javascript.options.wasm_js_promise_integration` — untested here. Safari does
   not provide JSPI and is not supported for the worker engines; GZDoom 4.14.2
   only needs WebGL2 and may work.

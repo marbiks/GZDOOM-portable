@@ -15,7 +15,7 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-const APP_VERSION = '1.7.2';
+const APP_VERSION = '1.7.3';
 const ENGINE_SCRIPTS = ['engine/portable-engine.js', 'engine/portable-data.js'];
 
 const PK3S = ['gzdoom.pk3', 'brightmaps.pk3', 'game_support.pk3', 'game_widescreen_gfx.pk3', 'lights.pk3'];
@@ -256,11 +256,11 @@ async function detectCaps() {
   };
   caps.ok = caps.worker && caps.offscreen && caps.webgl2 && caps.jspi;
   if (!caps.jspi) {
-    caps.reason = 'This browser does not expose JSPI (WebAssembly.Suspending / promising). The GZDoom build suspends on its main loop and needs it. Use Chrome or Edge 137+, or Firefox with “javascript.options.wasm_js_promise_integration” enabled.';
+    caps.reason = 'This browser does not expose JSPI (WebAssembly.Suspending / promising). The GZDoom build suspends on its main loop and needs it. Use a current Chromium browser (Chrome, Edge, Brave, Opera, Vivaldi) 137+, or Firefox with “javascript.options.wasm_js_promise_integration” enabled.';
   } else if (!caps.webgl2) {
     caps.reason = 'WebGL2 could not start, even after four tries. If a game was just closed, the browser may still be releasing its GPU context: reload the page (F5) and press Play again. If that does not help, enable hardware acceleration in the browser settings.';
   } else if (!caps.offscreen) {
-    caps.reason = 'OffscreenCanvas is unavailable. Use a current Chrome, Edge or Firefox.';
+    caps.reason = 'OffscreenCanvas is unavailable. Use a current Chromium browser (Chrome, Edge, Brave, Opera, Vivaldi) or Firefox.';
   } else if (!caps.worker) {
     caps.reason = 'Web Workers are unavailable in this browser.';
   } else {
@@ -2479,8 +2479,25 @@ async function init() {
   if (S.caps.jspi) rt.push('JSPI');
   if (S.caps.offscreen) rt.push('OffscreenCanvas');
   if (S.caps.webgl2) rt.push('WebGL2');
-  const m = navigator.userAgent.match(/(Chrome|Firefox|Edg|Safari|Brave)\/([0-9.]+)/);
-  $('#sys-browser').textContent = m ? m[1] + ' ' + m[2].split('.')[0] : (navigator.userAgent.slice(0, 28));
+  // Chromium browsers all put "Chrome/<version>" in the UA string, so the name
+  // is decided by the tokens in front of it: OPR for Opera, Vivaldi, Edg for
+  // Edge, and Brave (which ships no token at all) by its own navigator object.
+  const ua = navigator.userAgent;
+  const uaVer = (re) => { const m = ua.match(re); return m ? m[1] : null; };
+  const brands = [
+    ['Brave', 'brave' in navigator ? uaVer(/Chrome\/([0-9.]+)/) : null],
+    ['Opera', uaVer(/OPR\/([0-9.]+)/)],
+    ['Vivaldi', uaVer(/Vivaldi\/([0-9.]+)/)],
+    ['Edge', uaVer(/Edg\/([0-9.]+)/)],
+    ['Firefox', uaVer(/Firefox\/([0-9.]+)/)],
+    ['Chrome', uaVer(/Chrome\/([0-9.]+)/)],
+    ['Safari', uaVer(/Version\/([0-9.]+)[^)]*Safari/)],
+  ];
+  const brand = brands.find((b) => b[1]);
+  const brandVer = brand && brand[1].match(/([0-9.]+)/);
+  $('#sys-browser').textContent = brand
+    ? brand[0] + ' ' + brandVer[1].split('.')[0]
+    : navigator.userAgent.slice(0, 28);
   $('#sys-runtime').textContent = rt.join(' · ') || 'missing';
   $('#sys-renderer').textContent = 'GLES / WebGL2';
   $('#sys-origin').textContent = S.caps.file ? 'file:// (offline)' : location.protocol + '//' + location.host;

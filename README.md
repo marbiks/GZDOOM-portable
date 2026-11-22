@@ -1,8 +1,9 @@
 # GZDoom Portable
 
-**Open `index.html` in Chrome or Edge and play.** Nothing to install, nothing to
-set up, no internet: the whole Doom engine lives in this folder, so it runs
-straight from a USB stick or your desktop.
+**Open `index.html` in a current Chromium browser — Chrome, Edge, Brave, Opera
+or Vivaldi — and play.** Nothing to install, nothing to set up, no internet: the
+whole Doom engine lives in this folder, so it runs straight from a USB stick or
+your desktop.
 
 The only thing that is not in here is the game itself, because game files are
 copyrighted. Download the free game below (one file), drop it on the page, press
@@ -23,8 +24,9 @@ copyrighted. Download the free game below (one file), drop it on the page, press
 
 ## Start here — step by step
 
-You need three things: this folder, a browser called **Chrome** or **Edge**, and
-one **game file**. The game file is free and takes one minute to download.
+You need three things: this folder, a browser called **Chrome**, **Edge**,
+**Brave**, **Opera** or **Vivaldi** (any current Chromium-based browser), and one
+**game file**. The game file is free and takes one minute to download.
 
 ### 1. Open the launcher
 
@@ -32,12 +34,15 @@ Double-click **`index.html`**. It is the only file you open; everything beside
 it is the engine that this page loads.
 
 - If the file opens in a text editor instead of a browser, right-click it →
-  **Open with** → Chrome (or Edge).
+  **Open with** → Chrome, Edge, Brave, Opera or Vivaldi.
 - Unpack or copy the **whole folder** first. `index.html` on its own does not
   work: it loads `launcher.js`, `engines.js` and the `engine/` folder from
   beside itself.
-- Chrome or Edge 137+ is the tested pair. GZDoom 4.14.2 also starts in Firefox;
-  the other two need a Firefox setting turned on. Safari cannot run them.
+- Any current Chromium browser, 137 or newer, runs all three: Chrome, Edge,
+  Brave, Opera, Vivaldi. Brave, Opera and Vivaldi are the same engine family and
+  behave the same way; Chrome and Edge are the pair tested here. GZDoom 4.14.2
+  also starts in Firefox; the other two need a Firefox setting turned on. Safari
+  cannot run them.
 
 ### 2. Get a game file (a "WAD")
 
@@ -137,7 +142,8 @@ that is the reason all three are in the folder.
 | **UZDoom 4.14.3** | Web Worker + OffscreenCanvas | JSPI, WebGL2 | Upstream UZDoom; separate saves from GZDoom |
 
 The picker is driven entirely by [`engines.js`](engines.js); adding an engine is
-documented in [ENGINES.md](ENGINES.md). Where every binary comes from, its
+documented in [ENGINES.md](https://github.com/marbiks/GZDOOM-portable/blob/main/ENGINES.md).
+Where every binary comes from, its
 upstream tag and commit, the port's build flags and the local changes are in
 [PROVENANCE.md](PROVENANCE.md).
 
@@ -225,7 +231,8 @@ All three uncapped, one view. Run-to-run spread on this machine is wide
 roughly equal and compare pairs rather than trusting one number. With the
 frame-yield fix switched off, 4.11.3 read 103.2 FPS and both other builds
 ~139: that 4 ms per frame was the browser clamping a zero-delay timer, not the
-renderer (see 1.7.2 in [`CHANGELOG.md`](CHANGELOG.md)).
+renderer (see 1.7.2 in
+[`CHANGELOG.md`](https://github.com/marbiks/GZDOOM-portable/blob/main/CHANGELOG.md)).
 
 **Engine frame rate and screen frame rate are two different numbers.** The
 worker engines draw into an OffscreenCanvas that the compositor samples at the
@@ -333,7 +340,9 @@ Blob worker at runtime. The engine binary itself is unchanged.
 
 ## Browser support and limits
 
-- Chrome or Edge 137+ (JSPI stable). Firefox 128+ needs
+- Any current Chromium browser, 137 or newer — Chrome, Edge, Brave, Opera,
+  Vivaldi (JSPI stable). Brave, Opera and Vivaldi are the same engine family and
+  behave the same; the tested pair here is Chrome/Edge. Firefox 128+ needs
   `javascript.options.wasm_js_promise_integration` — untested here. Safari does
   not provide JSPI and is not supported for the worker engines; GZDoom 4.14.2
   only needs WebGL2 and may work.
@@ -354,8 +363,9 @@ Blob worker at runtime. The engine binary itself is unchanged.
 
 ## Troubleshooting
 
-**Nothing happens when opening `index.html`.** Use Chrome or Edge; some file
-managers open HTML in a text editor. The page must stay next to `engine/`.
+**Nothing happens when opening `index.html`.** Use a Chromium browser (Chrome,
+Edge, Brave, Opera, Vivaldi); some file managers open HTML in a text editor. The
+page must stay next to `engine/`.
 
 **"This browser cannot run…" / NOT SUPPORTED.** The selected engine's
 requirements are missing: JSPI for the two worker engines, WebGL2 for all three.
@@ -424,6 +434,7 @@ No tracking, no analytics, no network requests. Everything runs locally.
 
 ## Contributing
 
-Bug reports and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Bug reports and pull requests are welcome — see
+[CONTRIBUTING.md](https://github.com/marbiks/GZDOOM-portable/blob/main/CONTRIBUTING.md).
 Please do not attach game WADs to issues or commits: reproduce with a Freedoom
 IWAD instead.

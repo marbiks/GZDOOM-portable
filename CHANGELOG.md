@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.7.3 — a download with only what you need to play
+
+### Docs
+
+- The README is written for someone who has never used a Doom source port:
+  where to get a game, where to put it, which file to open, which engine to pick,
+  in plain words. No key list — bindings live in Settings → Input.
+- Game links point at the Freedoom download page instead of naming one WAD file:
+  any of their games works.
+- Browser support names every Chromium browser (Chrome, Edge, Brave, Opera,
+  Vivaldi) in the README, the in-app Help and the capability message. The System
+  panel reports Opera, Vivaldi, Edge and Brave under their own names instead of
+  calling them all "Chrome". Brave, Opera and Vivaldi are untested here; the
+  docs say so and call Chrome/Edge the tested pair.
+
+### Packaging
+
+- The downloadable ZIP is built from an explicit whitelist: the launcher, the
+  three engine bundles, README, LICENSE, PROVENANCE, the licences and the
+  `saves/`, `config/` and `backups/` placeholders. `dev/`, `tools/`, `.github/`,
+  `engine/engine.worker.js`, the development docs and the dotfiles are no longer
+  shipped.
+- README links to `ENGINES.md`, `CHANGELOG.md` and `CONTRIBUTING.md` became
+  absolute GitHub URLs so the shipped copy has no broken relative links.
+
 ## 1.7.2 — the 4 ms frame clamp, removed from every engine
 
 ### What was wrong

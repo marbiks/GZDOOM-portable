@@ -108,6 +108,15 @@ clamped yield that no cvar can reach.
   browser's own id space), so `cancelAnimationFrame` stops handing a foreign id
   to the native cancel.
 
+### Docs
+
+- `README.md` now opens with what a first-time player needs: open
+  `index.html`, download the free Freedoom WAD, drop it on the page, press
+  **Start game**. It says up front that the game itself is not bundled, says
+  where to put the file and which file to open, and explains the three engines
+  in plain words ("start here", "for new mods", "the newest") before the
+  technical table. No key list: bindings live in Settings.
+
 ### Verified
 
 - Frame counters cross-checked against each engine's own `+vid_fps` overlay, in

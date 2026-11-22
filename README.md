@@ -1,43 +1,133 @@
 # GZDoom Portable
 
-An offline Doom launcher for a USB stick, a folder, or a laptop: three
-WebAssembly engines, one page, no server, no installer, no network. Open
-`index.html`, add an IWAD you own, and play.
+**Open `index.html` in Chrome or Edge and play.** Nothing to install, nothing to
+set up, no internet: the whole Doom engine lives in this folder, so it runs
+straight from a USB stick or your desktop.
+
+The only thing that is not in here is the game itself, because game files are
+copyrighted. Download the free game below (one file), drop it on the page, press
+**Start game**. That is the whole setup.
 
 [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 
-- **Three engines, one launcher.** GZDoom 4.11.3, GZDoom 4.14.2 and UZDoom
+- **One folder, three engines.** GZDoom 4.11.3, GZDoom 4.14.2 and UZDoom
   4.14.3, each with its own settings and its own saves.
-- **Runs from `file://`.** No headers, no `SharedArrayBuffer`, no pthreads and
-  no background process. The engine binaries travel inside the page as classic
-  scripts and become a Blob worker at launch.
-- **No game data is included.** Pick your own `DOOM.WAD`, `DOOM2.WAD`,
-  `HERETIC.WAD`, … or download the free [Freedoom](https://freedoom.github.io/)
-  separately. Commercial IWADs are never redistributed with this project.
+- **Runs from `file://`.** No server, no headers, no `SharedArrayBuffer`, no
+  pthreads and no background process. The engine binaries travel inside the page
+  as classic scripts and become a worker at launch.
+- **No game data is included.** Bring `DOOM.WAD`, `DOOM2.WAD`, `HERETIC.WAD`, …
+  or the free [Freedoom](https://freedoom.github.io/). Commercial IWADs are never
+  redistributed with this project.
 - **Saves survive a tab close.** Saves are captured while you play into
   IndexedDB, kept apart per engine and per game, and export to a ZIP.
 
-## Quick start
+## Start here — step by step
 
-1. Copy the whole folder to a USB drive, external disk or any local path.
-2. Open `index.html` in Chrome or Edge 137+ (Firefox works with JSPI enabled for
-   the worker engines; GZDoom 4.14.2 only needs WebGL2).
-3. Add one IWAD plus any `.wad`, `.pk3`, `.ipk3` or `.zip` add-ons.
-4. Press **Start game**, then click the game once to capture the mouse.
+You need three things: this folder, a browser called **Chrome** or **Edge**, and
+one **game file**. The game file is free and takes one minute to download.
 
-Keep the folder together: the page loads `launcher.js`, `engines.js` and
-`engine/`. Moving `index.html` alone breaks the relative paths.
+### 1. Open the launcher
 
-### Where to get an IWAD
+Double-click **`index.html`**. It is the only file you open; everything beside
+it is the engine that this page loads.
 
-- **Freedoom** — free, BSD-licensed game data: <https://freedoom.github.io/>.
-  Download `freedoom1.wad` or `freedoom2.wad` and add it like any other IWAD.
-- **Doom, Doom II, Heretic, Hexen, Strife** — buy them (GOG, Steam) and use the
-  `.WAD` files from your own installation. They are copyrighted; do not commit
-  them to this repository or share them with it.
-- Free stand-alone episodes and mods (`.wad`/`.pk3`) still need a base IWAD.
+- If the file opens in a text editor instead of a browser, right-click it →
+  **Open with** → Chrome (or Edge).
+- Unpack or copy the **whole folder** first. `index.html` on its own does not
+  work: it loads `launcher.js`, `engines.js` and the `engine/` folder from
+  beside itself.
+- Chrome or Edge 137+ is the tested pair. GZDoom 4.14.2 also starts in Firefox;
+  the other two need a Firefox setting turned on. Safari cannot run them.
 
-## Engines
+### 2. Get a game file (a "WAD")
+
+A WAD is the data the engine draws: levels, monsters, sounds, walls. Two kinds
+matter:
+
+- an **IWAD** is the game itself — `DOOM.WAD`, `DOOM2.WAD`, `HERETIC.WAD`,
+  `FREEDOOM2.WAD`, … You need exactly one.
+- a **PWAD** or **PK3** is an add-on: new levels, a weapon mod, a total
+  conversion. Optional, any number, added next to the IWAD.
+
+The free game is **Freedoom** — a complete Doom game that is legal to download
+and share. Go to <https://freedoom.github.io/> and download `freedoom2.wad`
+(the 32-level one). More places to get game files are listed in
+[Where to get game files](#where-to-get-game-files).
+
+### 3. Put the file somewhere you can find it
+
+Any place on the computer or the stick works: next to `index.html`, in your
+Downloads, on the desktop. The browser cannot read a folder by itself, so this
+only decides where *you* look for the file — you pick it in the file dialog, the
+launcher does not scan folders.
+
+For a tidy USB stick, keep the games beside the page:
+
+```
+GZDoom portable/
+  index.html          <- double-click this
+  wads/
+    freedoom2.wad     <- your game file
+```
+
+Do not put game files inside `engine/`; that folder is the engine itself.
+
+### 4. Add the file to the page
+
+Open `index.html`, then either **drag the WAD onto the big "Add your game files"
+box**, or click that box and pick the file (it says **Browse**). Add mods the
+same way, in the order they should load.
+
+The page then lists what you picked and says which file it will use as the game.
+The launcher keeps a cached copy in the browser, so next time the same game is
+waiting under **Recent games**.
+
+### 5. Press Start game
+
+Leave the first engine (GZDoom 4.11.3) selected unless you want the newest
+features — see [Which engine should I pick?](#which-engine-should-i-pick).
+
+Press **Start game**, wait for the title screen, then click the game once so it
+takes the mouse. Everything you can adjust — resolution, volume, frame rate,
+mouse sensitivity, key bindings — is in **Settings**, and each engine keeps its
+own copy.
+
+### 6. Next time
+
+Double-click `index.html` again, choose the same game under **Recent games** (or
+add the file again), press **Start game**. Your saves are still there; they are
+stored by the browser, not in this folder.
+
+## Where to get game files
+
+- **Freedoom — free, and the easiest start:** <https://freedoom.github.io/>.
+  `freedoom2.wad` is a Doom II-style game with 32 levels, `freedoom1.wad` a Doom
+  I-style one. BSD-licensed, so copying it and passing it on is legal.
+- **Doom, Doom II, Heretic, Hexen, Strife — paid:** buy them on GOG or Steam and
+  use the `.WAD` files from your own installation. They are copyrighted: keep
+  them to yourself, and do not commit them here or attach them to issues.
+- **Mods and extra levels:** the [idgames archive](https://www.doomworld.com/idgames/)
+  and Doomworld's releases forum. A `.wad`, `.pk3`, `.ipk3` or `.zip` mod still
+  needs an IWAD to run.
+
+## Which engine should I pick?
+
+This folder carries three versions of the Doom engine. You run one at a time,
+and each keeps its own settings and its own saves, so trying another never
+damages the first one.
+
+- **GZDoom 4.11.3 — start here (stable).** The fastest and the most compatible:
+  it plays practically every Doom mod ever made. Leave this one selected unless
+  you have a reason not to.
+- **GZDoom 4.14.2 — for new mods (experimental).** The newest GZDoom features,
+  and it starts in more browsers because it runs on the page instead of in a
+  worker. Leaving a game reloads the launcher.
+- **UZDoom 4.14.3 — the newest engine (experimental).** Three years of upstream
+  work beyond 4.11.3. Its saves are separate from GZDoom's and cannot be
+  swapped between them.
+
+A mod built for a newer engine than the one you picked will refuse to load;
+that is the reason all three are in the folder.
 
 | Entry | How it runs | Needs | Character |
 | --- | --- | --- | --- |

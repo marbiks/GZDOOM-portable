@@ -1,0 +1,41 @@
+# Development leftovers
+dev/__pycache__/
+*.pyc
+__pycache__/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Extracted engine build inputs (regenerate with the tools/ scripts)
+engine/uzdoom-src/
+engine/gzdoom414-src/
+engine/gzdoom.js
+engine/gzdoom.wasm
+engine/*.pk3
+
+# Workspace metadata (not part of the project)
+.freebuff/
+
+# Screenshots taken by the engines or by verification runs
+screenshots/
+*.png.tmp
+
+# Game data is never part of this project (neither commercial nor free IWADs)
+*.wad
+*.WAD
+*.pk3
+*.PK3
+*.ipk3
+*.IPK3
+wads/
+
+# Local save archives and user data (never commit these)
+backups/*.zip
+saves/*.zip
+config/*.ini
+
+# Local override of the launcher's own preferences export
+GZDoom-Portable-Saves-*.zip

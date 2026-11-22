@@ -45,14 +45,14 @@ A WAD is the data the engine draws: levels, monsters, sounds, walls. Two kinds
 matter:
 
 - an **IWAD** is the game itself — `DOOM.WAD`, `DOOM2.WAD`, `HERETIC.WAD`,
-  `FREEDOOM2.WAD`, … You need exactly one.
+  `HEXEN.WAD`, … You need exactly one.
 - a **PWAD** or **PK3** is an add-on: new levels, a weapon mod, a total
   conversion. Optional, any number, added next to the IWAD.
 
-The free game is **Freedoom** — a complete Doom game that is legal to download
-and share. Go to <https://freedoom.github.io/> and download `freedoom2.wad`
-(the 32-level one). More places to get game files are listed in
-[Where to get game files](#where-to-get-game-files).
+The free game is **Freedoom** — complete Doom games that are legal to download
+and share. Go to <https://freedoom.github.io/> and pick any game you like from
+their download page; any of them works. More places to get game files are
+listed in [Where to get game files](#where-to-get-game-files).
 
 ### 3. Put the file somewhere you can find it
 
@@ -67,7 +67,7 @@ For a tidy USB stick, keep the games beside the page:
 GZDoom portable/
   index.html          <- double-click this
   wads/
-    freedoom2.wad     <- your game file
+    yourgame.wad      <- your game file
 ```
 
 Do not put game files inside `engine/`; that folder is the engine itself.
@@ -101,8 +101,9 @@ stored by the browser, not in this folder.
 ## Where to get game files
 
 - **Freedoom — free, and the easiest start:** <https://freedoom.github.io/>.
-  `freedoom2.wad` is a Doom II-style game with 32 levels, `freedoom1.wad` a Doom
-  I-style one. BSD-licensed, so copying it and passing it on is legal.
+  Their download page offers a few complete games; pick whichever one you like,
+  no purchase and no account needed. BSD-licensed, so copying it and passing it
+  on is legal.
 - **Doom, Doom II, Heretic, Hexen, Strife — paid:** buy them on GOG or Steam and
   use the `.WAD` files from your own installation. They are copyrighted: keep
   them to yourself, and do not commit them here or attach them to issues.

@@ -22,6 +22,16 @@ copyrighted. Download the free game below (one file), drop it on the page, press
 - **Saves survive a tab close.** Saves are captured while you play into
   IndexedDB, kept apart per engine and per game, and export to a ZIP.
 
+## Two downloads
+
+Both are this launcher with the same three engines; take whichever you like.
+
+- **Normal** (`GZDoom-Portable-<version>.zip`) — everything included.
+- **Lite** (`GZDoom-Portable-<version>-lite.zip`) — around 16 MB smaller. It
+  leaves out one optional pack of widescreen artwork, so status bars and menus
+  use the classic 4:3 art. Engines, saves, mods and settings work exactly the
+  same.
+
 ## Start here — step by step
 
 You need three things: this folder, a browser called **Chrome**, **Edge**,

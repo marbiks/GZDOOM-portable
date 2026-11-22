@@ -15,7 +15,7 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-const APP_VERSION = '1.7.3';
+const APP_VERSION = '1.7.4';
 const ENGINE_SCRIPTS = ['engine/portable-engine.js', 'engine/portable-data.js'];
 
 const PK3S = ['gzdoom.pk3', 'brightmaps.pk3', 'game_support.pk3', 'game_widescreen_gfx.pk3', 'lights.pk3'];

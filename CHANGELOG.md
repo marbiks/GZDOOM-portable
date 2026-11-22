@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.7.4 — a lite download beside the normal one
+
+### Packaging
+
+- Each release now carries two assets: `GZDoom-Portable-1.7.4.zip` (all three
+  engines, unchanged) and `GZDoom-Portable-1.7.4-lite.zip`, built by
+  `tools/make-lite.py`: the same three engines without the optional
+  `game_widescreen_gfx.pk3` that every one of them ships. 46.5 MB becomes about
+  29 MB with nothing removed from the engines' playable data.
+- The pack is cut out of all three containers: the `GZP_DATA` fields (4.11.3),
+  the packed `gzdoom.data` blob with its `loadPackage` offsets in `glue.js`
+  (4.14.2), and the `archives` map (UZDoom). `launcher.js` loses the name from
+  `PK3S` as well, because that list is what the worker copies into MEMFS.
+- Consequence: status bars and menus use the classic 4:3 artwork in the lite
+  build. Saves, settings, engines and mod support are unchanged; the normal
+  build keeps the widescreen art.
+
+### Docs
+
+- README gains a "Two downloads" section explaining which one to take.
+
 ## 1.7.3 — a download with only what you need to play
 
 ### Docs

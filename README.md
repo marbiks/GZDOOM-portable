@@ -28,10 +28,6 @@ WebAssembly engines, one page, no server, no installer, no network. Open
 Keep the folder together: the page loads `launcher.js`, `engines.js` and
 `engine/`. Moving `index.html` alone breaks the relative paths.
 
-Controls: WASD + mouse, Ctrl fires, Space uses, Shift runs. <kbd>Esc</kbd>
-releases the mouse, a second <kbd>Esc</kbd> opens the menu, <kbd>`</kbd> opens
-the console, <kbd>Alt</kbd>+<kbd>Enter</kbd> toggles fullscreen.
-
 ### Where to get an IWAD
 
 - **Freedoom** — free, BSD-licensed game data: <https://freedoom.github.io/>.

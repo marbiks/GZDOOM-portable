@@ -98,8 +98,8 @@ on all three.
 
 - Audio is stereo; no positional panning.
 - Music synthesis happens on the engine thread (no threads in these builds).
-- GZDoom 4.14.2 cannot start twice in one tab: leaving the game reloads the
-  launcher.
+- GZDoom 4.14.2 runs one session per page load: leaving the game reloads the
+  launcher, and it starts again normally after that.
 - Pointer lock is refused in headless Chromium, so look direction has to be
   checked in a real window.
 - 4.11.3 and UZDoom cap their own menus at 35 FPS; that is engine behaviour, not

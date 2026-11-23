@@ -160,8 +160,8 @@ not extra smoothness. Measurements are in
   Tested here on current Chromium.
 - Audio is stereo.
 - Music is synthesised on the engine thread.
-- GZDoom 4.14.2 cannot be started twice in one tab; leaving the game reloads the
-  launcher.
+- GZDoom 4.14.2 runs one session per page load: leaving the game reloads the
+  launcher, and it starts again normally after that.
 - Save-game thumbnails are off (`storesavepic 0`) because the picture pass
   breaks the GPU context. Saves are complete; only the load-menu image is
   missing.

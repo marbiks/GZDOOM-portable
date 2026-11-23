@@ -57,8 +57,8 @@ Differences you will notice
   +vid_defwidth/+vid_defheight/+win_w/+win_h. Without those it starts at its
   built-in 640x480. The canvas keeps the engine's aspect ratio and is letterboxed
   in the stage, so the frame is never stretched to the window's shape.
-* The wasm runtime cannot be started twice in one tab: leaving the game reloads
-  the launcher.
+* One session per page load: leaving the game reloads the launcher, and it
+  starts again normally after that.
 
 Rebuilding wasm-b64.js / data-b64.js
 ------------------------------------

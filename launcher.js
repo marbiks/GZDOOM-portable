@@ -1112,8 +1112,8 @@ async function bootWorker({ w, h, files, args, stateFiles, wasm, iwadStored, pwa
 /* Boot a single-threaded engine on the page itself (GZDoom 4.14.2).
  * No worker and no OffscreenCanvas: this build wants a real DOM canvas and a
  * real AudioContext, and it reads its own bytes through Emscripten hooks, so it
- * still works from file://. Because the wasm runtime cannot be re-instantiated
- * in the same tab, leaving the game reloads the launcher (see endGame). */
+ * still works from file://. Because it runs one session per page load,
+ * leaving the game reloads the launcher (see endGame). */
 async function bootInline({ w, h, files, args, stateFiles, displayName, engine }) {
   const stage = $('#stage');
   stage.textContent = '';
@@ -1661,9 +1661,9 @@ async function endGame(opts = {}) {
   const game = S.game;
   if (!game) { exitGameUi(); return; }
   if (game.inline) {
-    // The in-page engine has no worker to terminate, and its wasm runtime
-    // cannot be started twice in one tab, so: capture the saves it wrote into
-    // MEMFS, drop the canvas, then reload into a clean launcher.
+    // The in-page engine has no worker to terminate and runs one session per
+    // page load, so: capture the saves it wrote into MEMFS, drop the canvas,
+    // then reload into a clean launcher.
     stopInlineSaveWatch();
     stopInlineFpsWatch();
     if (window.GZ414 && !opts.skipSnapshot) {
@@ -1679,8 +1679,8 @@ async function endGame(opts = {}) {
     $('#stage').textContent = '';
     S.game = null;
     S.stats = null;
-    // A finished session reloads the tab: this engine's wasm runtime cannot be
-    // started twice in one. A failed boot arrives here from launch()'s catch
+    // A finished session reloads the tab: this engine runs one session per
+    // page load. A failed boot arrives here from launch()'s catch
     // through the same call, and reloading there replaced the fatal screen the
     // player needs with a silent return to the launcher.
     if (!opts.skipSnapshot) { location.reload(); return; }

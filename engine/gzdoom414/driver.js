@@ -51,7 +51,7 @@
    *         args:[...], onLog(text, stream), onReady(), onAbort(reason) } */
   G.start = function (opts) {
     if (G.started) {
-      return Promise.reject(new Error('GZDoom 4.14.2 is already running in this tab. Reload the page to start it again.'));
+      return Promise.reject(new Error('GZDoom 4.14.2 is already running on this page. Reload the page to start it again.'));
     }
     G.started = true;
 

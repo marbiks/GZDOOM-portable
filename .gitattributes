@@ -1,6 +1,6 @@
 # Keep the generated bundles byte-exact on every platform.
-engine/portable-engine.js   -text
-engine/portable-data.js     -text
+engine/gzdoom/portable-engine.js   -text
+engine/gzdoom/portable-data.js     -text
 engine/gzdoom414/wasm-b64.js -text
 engine/gzdoom414/data-b64.js -text
 engine/gzdoom414/glue.js     -text

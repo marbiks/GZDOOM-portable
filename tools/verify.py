@@ -5,7 +5,7 @@
    the worker and forgetting to repack leaves the shipped engines on old code,
    which is exactly how UZDoom kept its 4 ms frame clamp after 1.7.2.
 2. `index.html`'s version chip matches `APP_VERSION` in the launcher.
-3. `engines.js` declares no field the launcher never reads.
+3. `engines.js` declares only fields the code knows about (no prose fields).
 
     python3 tools/verify.py        # exit 1 on any failure
 """
@@ -15,16 +15,15 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BUNDLES = ('engine/portable-engine.js', 'engine/uzdoom/bundle.js')
+BUNDLES = ('engine/gzdoom/portable-engine.js', 'engine/uzdoom/bundle.js')
 
 # Registry fields the launcher (or engines.js itself) actually reads.
 REGISTRY_FIELDS = {
-    'id', 'name', 'version', 'build', 'boot', 'badge', 'description',
-    'compatibility', 'requires', 'blockedReason', 'binaries', 'saves', 'docs',
-    'modNotes', 'experimental', 'noSavePic', 'lockCvars', 'extraArgs', 'fileUrl',
-    'file', 'crossOriginIsolated', 'server', 'sharedArrayBuffer', 'jspi', 'wasm',
-    'loader', 'data', 'glue', 'driver', 'bundle', 'keyPrefix', 'memRoot',
-    'memSaveRoot', 'ini',
+    'id', 'name', 'version', 'boot', 'badge', 'description', 'compatibility',
+    'requires', 'blockedReason', 'binaries', 'saves', 'modNotes', 'experimental',
+    'noSavePic', 'lockCvars', 'extraArgs', 'fileUrl', 'file',
+    'crossOriginIsolated', 'sharedArrayBuffer', 'jspi', 'wasm', 'loader', 'data',
+    'driver', 'bundle', 'keyPrefix', 'memRoot', 'memSaveRoot', 'ini',
 }
 
 
@@ -70,7 +69,7 @@ def check_registry(fail):
     if extra:
         fail.append('engines.js declares unread field(s): ' + ', '.join(extra))
     else:
-        print('ok   engines.js %d fields, all read' % len(declared))
+        print('ok   engines.js %d fields, all known' % len(declared))
 
 
 def main():

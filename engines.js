@@ -30,7 +30,6 @@ window.GZ_ENGINES = (function () {
       id: 'gzdoom',
       name: 'GZDoom',
       version: '4.11.3',
-      build: 'WebAssembly, single-threaded (tomb-engine build)',
       boot: 'worker',
       badge: 'stable',
       // Measured in Chromium 157: the savegame screenshot pass (glReadPixels
@@ -43,19 +42,17 @@ window.GZ_ENGINES = (function () {
       description: 'Web Worker build. Best general-purpose choice.',
       compatibility:
         'Doom, Doom II, Heretic, Hexen and Strife IWADs, plus DeHackEd, DECORATE, ZScript, ACS, MAPINFO and PK3 mods.',
-      requires: { fileUrl: true, server: false, sharedArrayBuffer: false, jspi: true },
+      requires: { fileUrl: true, sharedArrayBuffer: false, jspi: true },
       blockedReason: '',
       // The wasm and its loader travel inside portable-engine.js; the raw
       // build inputs are not kept in the folder (see tools/make-portable.py).
       binaries: {
-        wasm: 'engine/portable-engine.js (gzdoom.wasm, base64)',
-        loader: 'engine/portable-engine.js',
-        data: 'engine/portable-data.js',
+        loader: 'engine/gzdoom/portable-engine.js',
+        data: 'engine/gzdoom/portable-data.js',
       },
       // Where the engine keeps saves and its ini inside MEMFS. The engine id
       // scopes them in the page's store; nothing here repeats that.
       saves: { memRoot: '/home/web_user/.config/gzdoom', ini: 'gzdoom.ini' },
-      docs: 'https://github.com/mungus43/tomb-engine',
       // Shown when a picked file set matches; informational only, it never
       // blocks a launch.
       modNotes: [],
@@ -68,7 +65,6 @@ window.GZ_ENGINES = (function () {
       // (GL_FRAMEBUFFER_UNSUPPORTED), and the screen then stays black. Skipping
       // the picture keeps saving working; the save itself is complete.
       noSavePic: true,
-      build: 'WebAssembly, single-threaded (ZDoomWeb build), runs on the page',
       boot: 'inline',
       // This build only carries the GLES renderer (vid_preferbackend 1 is
       // appended for the worker engines); there is no renderer choice to make.
@@ -78,18 +74,16 @@ window.GZ_ENGINES = (function () {
       compatibility:
         'Current GZDoom ZScript/UDMF/MBF21 support on the page. Saves, PK3s, DECORATE, ACS ' +
         'and MAPINFO load as usual; the engine\u2019s own save screenshots are off (see noSavePic).',
-      requires: { fileUrl: true, server: false, sharedArrayBuffer: false, jspi: false },
+      requires: { fileUrl: true, sharedArrayBuffer: false, jspi: false },
       blockedReason: '',
       binaries: {
         wasm: 'engine/gzdoom414/wasm-b64.js',
         data: 'engine/gzdoom414/data-b64.js',
-        glue: 'engine/gzdoom414/glue.js',
         driver: 'engine/gzdoom414/driver.js',
       },
       // No saves block: this build writes into the page's own MEMFS and its
       // driver reads the tree (GZ414.savePath), so there is no watcher root to
       // declare here.
-      docs: 'https://github.com/nbarkhina/ZDoomWeb',
       modNotes: [],
     },
     {
@@ -104,7 +98,6 @@ window.GZ_ENGINES = (function () {
       // saving. Turning the save screenshot off skips that pass; the save
       // itself is complete, it just has no thumbnail in the load menu.
       noSavePic: true,
-      build: 'WebAssembly, single-threaded (uzdoom-wasm build), runs in a Web Worker',
       boot: 'worker',
       // GLES-only build, like 4.14.2; `vid_preferbackend` would be ignored.
       badge: 'experimental',
@@ -113,11 +106,8 @@ window.GZ_ENGINES = (function () {
       compatibility:
         'Three years of upstream changes over 4.11.3 (ZScript, MBF21/id24, renderer fixes) with its ' +
         'own ZMusic. Needs JSPI. Saves are separate from GZDoom\u2019s and not interchangeable.',
-      requires: { fileUrl: true, server: false, sharedArrayBuffer: false, jspi: true },
-      binaries: {
-        bundle: 'engine/uzdoom/bundle.js',
-        wasm: 'engine/uzdoom/bundle.js (gzip + base64)',
-      },
+      requires: { fileUrl: true, sharedArrayBuffer: false, jspi: true },
+      binaries: { bundle: 'engine/uzdoom/bundle.js' },
       saves: {
         keyPrefix: 'uz-',
         memRoot: '/home/web_user/.config/uzdoom',
@@ -127,7 +117,6 @@ window.GZ_ENGINES = (function () {
         memSaveRoot: '/home/web_user/.local/share/games/uzdoom',
         ini: 'uzdoom.ini',
       },
-      docs: 'https://github.com/derpyder/uzdoom-wasm',
       modNotes: [],
     },
   ];

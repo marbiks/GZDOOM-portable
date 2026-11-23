@@ -132,12 +132,6 @@ class CDP:
             })
             time.sleep(0.05)
 
-    def move(self, x, y, dx=0, dy=0):
-        self.call('Input.dispatchMouseEvent', {
-            'type': 'mouseMoved', 'x': x, 'y': y, 'button': 'none',
-            'buttons': 0, 'pointerType': 'mouse',
-        })
-
     def key(self, code, key, key_code, wait=0.05):
         base = {'code': code, 'key': key, 'windowsVirtualKeyCode': key_code, 'nativeVirtualKeyCode': key_code}
         self.call('Input.dispatchKeyEvent', dict(base, type='keyDown'))

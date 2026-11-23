@@ -5,7 +5,7 @@ The launcher must run from file:// where fetch()/XHR and file:// workers are
 blocked. Everything the engine needs at runtime therefore has to arrive as a
 classic <script> (allowed on file://) and be turned into a Blob worker.
 
-Outputs (all under engine/):
+Outputs (all under engine/gzdoom/):
   portable-engine.js   worker source + Emscripten loader source + wasm
   portable-data.js     support PK3s (base64)
 
@@ -29,7 +29,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENGINE = os.path.join(ROOT, "engine")
-OUT = ENGINE
+OUT = os.path.join(ENGINE, "gzdoom")
 
 SUPPORT_PK3S = ("gzdoom.pk3", "brightmaps.pk3", "game_support.pk3",
                 "game_widescreen_gfx.pk3", "lights.pk3")
@@ -84,14 +84,14 @@ def main():
     restore_inputs(force="--from-bundle" in sys.argv)
     engine = {
         "worker": textfile(os.path.join(ENGINE, "engine.worker.js")),
-        "loader": textfile(os.path.join(ENGINE, "gzdoom.js")),
-        "wasm": b64file(os.path.join(ENGINE, "gzdoom.wasm")),
+        "loader": textfile(os.path.join(OUT, "gzdoom.js")),
+        "wasm": b64file(os.path.join(OUT, "gzdoom.wasm")),
     }
     write_js("portable-engine.js", "GZP_ENGINE", engine)
 
     data = {}
     for pk3 in SUPPORT_PK3S:
-        data[pk3] = b64file(os.path.join(ENGINE, pk3))
+        data[pk3] = b64file(os.path.join(OUT, pk3))
     write_js("portable-data.js", "GZP_DATA", data)
 
 

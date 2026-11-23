@@ -1,7 +1,7 @@
 # GZDoom Portable
 
-**Open `index.html` in a current Chromium browser — Chrome, Edge, Brave, Opera
-or Vivaldi — and play.** Nothing to install, nothing to set up, no internet: the
+**Open `index.html` in a modern browser and play.** Nothing to install, nothing
+to set up, no internet: the
 whole Doom engine lives in this folder, so it runs straight from a USB stick or
 your desktop.
 
@@ -32,16 +32,15 @@ Both are this launcher with the same three engines; take whichever you like.
 
 ## Start here
 
-You need this folder, a browser called **Chrome**, **Edge**, **Brave**,
-**Opera** or **Vivaldi**, and one **game file**.
+You need this folder, a modern browser, and one **game file**.
 
 ### 1. Open the launcher
 
 Double-click **`index.html`**. It is the only file you open; keep the whole
 folder together, because the page loads everything beside it.
 
-- If the file opens in a text editor, right-click it → **Open with** → Chrome,
-  Edge, Brave, Opera or Vivaldi.
+- If the file opens in a text editor, right-click it → **Open with** → your
+  browser.
 - `index.html` on its own does not work.
 
 ### 2. Get a game file (a "WAD")
@@ -97,11 +96,11 @@ Run one at a time. Each keeps its own settings and saves, so trying another
 never damages the first. A mod that needs a newer engine will not run on an
 older one; that is why all three are in the folder.
 
-All three run in a current Chromium browser (137 or newer). GZDoom 4.14.2 needs
-only WebGL2, so it is also the one to try in Firefox or Safari, which are
-untested here. Engine details are in
-[ENGINES.md](https://github.com/marbiks/GZDOOM-portable/blob/main/ENGINES.md)
-and [COMPATIBILITY.md](https://github.com/marbiks/GZDOOM-portable/blob/main/COMPATIBILITY.md);
+All three run in most modern browsers. The two worker engines need JSPI; GZDoom
+4.14.2 needs only WebGL2, so it is also the one to try in an older browser.
+Engine details are in
+[ENGINES.md](https://github.com/marbiks/GZDOOM-portable/blob/main/docs/ENGINES.md)
+and [COMPATIBILITY.md](https://github.com/marbiks/GZDOOM-portable/blob/main/docs/COMPATIBILITY.md);
 where each binary comes from is in [PROVENANCE.md](PROVENANCE.md).
 
 ## Loading WADs
@@ -153,13 +152,12 @@ Settings → **Resolution** gives them back.
 
 A screen can only show its own refresh rate, so numbers above it are headroom,
 not extra smoothness. Measurements are in
-[`CHANGELOG.md`](https://github.com/marbiks/GZDOOM-portable/blob/main/CHANGELOG.md).
+[`CHANGELOG.md`](https://github.com/marbiks/GZDOOM-portable/blob/main/docs/CHANGELOG.md).
 
 ## Browser support and limits
 
-- Any current Chromium browser, 137 or newer — Chrome, Edge, Brave, Opera,
-  Vivaldi. Firefox and Safari are untested here; GZDoom 4.14.2 needs only
-  WebGL2, so it is the one to try there.
+- Most modern browsers with WebGL2; the two worker engines also need JSPI.
+  Tested here on current Chromium.
 - Audio is stereo.
 - Music is synthesised on the engine thread.
 - GZDoom 4.14.2 cannot be started twice in one tab; leaving the game reloads the
@@ -172,9 +170,8 @@ not extra smoothness. Measurements are in
 
 ## Troubleshooting
 
-**Nothing happens when opening `index.html`.** Use a Chromium browser (Chrome,
-Edge, Brave, Opera, Vivaldi); some file managers open HTML in a text editor. The
-page must stay next to `engine/`.
+**Nothing happens when opening `index.html`.** Open it in a modern browser; some
+file managers open HTML in a text editor. The page must stay next to `engine/`.
 
 **"This browser cannot run…" / NOT SUPPORTED.** The browser is too old or
 hardware acceleration is off. Update it and check `chrome://gpu`; if you just
@@ -202,7 +199,7 @@ Recent games → *Clear* (cached game files).
 index.html                  Launcher page. Open this.
 launcher.js                 UI, storage, archive import/export, engine boot.
 engines.js                  Engine list (the picker reads only this).
-engine/                     The three engines, as scripts.
+engine/                     The three engines, one folder each.
 backups/ saves/ config/     Folders for your exported save archives and config.
 licenses/                   GPLv3 text and third-party notices.
 PROVENANCE.md               Upstream tags, build sources, local changes.
@@ -234,7 +231,7 @@ it. No tracking, no analytics, no network requests.
 ## Contributing
 
 Bug reports and pull requests are welcome — see
-[CONTRIBUTING.md](https://github.com/marbiks/GZDOOM-portable/blob/main/CONTRIBUTING.md).
+[CONTRIBUTING.md](https://github.com/marbiks/GZDOOM-portable/blob/main/docs/CONTRIBUTING.md).
 Please do not attach game WADs to issues or commits: reproduce with a Freedoom
 IWAD instead. Rebuilding the engine bundles is documented there, and rebuilding
 from source in [PROVENANCE.md](PROVENANCE.md) §6.

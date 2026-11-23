@@ -16,7 +16,6 @@ const $ = (sel) => document.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 const APP_VERSION = '1.7.4';
-const ENGINE_SCRIPTS = ['engine/portable-engine.js', 'engine/portable-data.js'];
 
 const PK3S = ['gzdoom.pk3', 'brightmaps.pk3', 'game_support.pk3', 'game_widescreen_gfx.pk3', 'lights.pk3'];
 const BIND_ACTIONS = [
@@ -70,7 +69,7 @@ const S = {
   lastSaveAt: 0,
   saveToastShown: false,
   fsAllWaiter: null,
-  audio: { ctx: null, master: null, sources: new Map(), plays: 0, bytes: 0 },
+  audio: { ctx: null, master: null, sources: new Map() },
   enginePromise: null,
   engineId: 'gzdoom',
   engine: null,
@@ -140,8 +139,11 @@ async function ensureEngineScripts() {
   if (window.GZP_ENGINE && window.GZP_DATA) return;
   if (!S.enginePromise) {
     S.enginePromise = (async () => {
+      const bins = (currentEngine() && currentEngine().binaries) || {};
       setBoot('Loading engine bundle…', 8, '');
-      for (const src of ENGINE_SCRIPTS) await loadScript(src);
+      for (const src of [bins.loader, bins.data]) {
+        if (src) await loadScript(src);
+      }
     })();
     S.enginePromise.catch(() => { S.enginePromise = null; });
   }
@@ -258,7 +260,7 @@ async function detectCaps() {
   if (!caps.jspi) {
     caps.reason = 'This browser does not expose JSPI (WebAssembly.Suspending / promising). The GZDoom build suspends on its main loop and needs it. Use a current Chromium browser (Chrome, Edge, Brave, Opera, Vivaldi) 137+, or Firefox with “javascript.options.wasm_js_promise_integration” enabled.';
   } else if (!caps.webgl2) {
-    caps.reason = 'WebGL2 could not start, even after four tries. If a game was just closed, the browser may still be releasing its GPU context: reload the page (F5) and press Play again. If that does not help, enable hardware acceleration in the browser settings.';
+    caps.reason = 'WebGL2 could not start, even after four tries. If a game was just closed, the browser may still be releasing its GPU context: reload the page (F5) and press Start game again. If that does not help, enable hardware acceleration in the browser settings.';
   } else if (!caps.offscreen) {
     caps.reason = 'OffscreenCanvas is unavailable. Use a current Chromium browser (Chrome, Edge, Brave, Opera, Vivaldi) or Firefox.';
   } else if (!caps.worker) {
@@ -497,18 +499,17 @@ function inspectWad(bytes) {
   if (magic !== 'IWAD' && magic !== 'PWAD') throw new Error('Not a WAD file (missing IWAD/PWAD header).');
   const num = u32(bytes, 4), dir = u32(bytes, 8);
   if (!num || dir + num * 16 > bytes.length) throw new Error('WAD directory is damaged or truncated.');
-  let doom1 = false, doom2 = false, maps = 0;
+  let maps = 0;
   const n = Math.min(num, 200000);
   for (let i = 0; i < n; i++) {
     const name = ascii(bytes, dir + i * 16 + 8, 8).trim().toUpperCase();
-    if (/^MAP\d\d$/.test(name)) { doom2 = true; maps++; }
-    else if (/^E\dM\d$/.test(name)) { doom1 = true; maps++; }
+    if (/^(MAP\d\d|E\dM\d)$/.test(name)) maps++;
   }
-  return { kind: magic === 'IWAD' ? 'iwad' : 'pwad', doom1, doom2, maps };
+  return { kind: magic === 'IWAD' ? 'iwad' : 'pwad', maps };
 }
 function inspectFile(name, bytes) {
   if (bytes.length >= 4 && bytes[0] === 0x50 && bytes[1] === 0x4B && bytes[2] === 0x03 && bytes[3] === 0x04) {
-    return { kind: 'pk3', doom1: false, doom2: false, maps: 0, archive: true };
+    return { kind: 'pk3', maps: 0, archive: true };
   }
   const info = inspectWad(bytes);
   if (info.kind === 'iwad' && !/\.wad$/i.test(name)) name += '.wad';
@@ -601,8 +602,7 @@ function updateStartState() {
       : 'Choose a Doom IWAD to start. No game data is included.', S.selection.length ? 'err' : '');
     return;
   }
-  const map = (iwad.info.doom1 && !iwad.info.doom2) ? 'E1M1' : 'MAP01';
-  setStatus('Ready to launch · starts at ' + map + '.', 'ok');
+  setStatus('Ready to launch.', 'ok');
 }
 function renderSelection() {
   const box = $('#selection'), list = $('#sel-list');
@@ -924,7 +924,7 @@ async function launch() {
         }
       } else {
         await ensureEngineScripts();
-        setBoot('Decoding WebAssembly…', 48, 'engine/portable-engine.js');
+        setBoot('Decoding WebAssembly…', 48, 'engine/gzdoom/portable-engine.js');
         wasm = b64ToBytes(window.GZP_ENGINE.wasm);
         setBoot('Decoding support archives…', 62, PK3S.join(' · '));
         for (const k of PK3S) pk3Bytes[k] = b64ToBytes(window.GZP_DATA[k]);
@@ -1151,9 +1151,10 @@ async function bootInline({ w, h, files, args, stateFiles, displayName, engine }
 
   S.log('[boot] ' + displayName + ' · ' + engine.name + ' ' + engine.version + ' · ' + w + 'x' + h);
 
-  if (!window.GZ414_WASM_B64) { setBoot('Reading engine binary…', 88, 'wasm'); await script('engine/gzdoom414/wasm-b64.js'); }
-  if (!window.GZ414_DATA_B64) { setBoot('Reading engine data…', 90, 'engine data'); await script('engine/gzdoom414/data-b64.js'); }
-  if (!window.GZ414) await script('engine/gzdoom414/driver.js');
+  const bins414 = engine.binaries || {};
+  if (!window.GZ414_WASM_B64) { setBoot('Reading engine binary…', 88, 'wasm'); await script(bins414.wasm); }
+  if (!window.GZ414_DATA_B64) { setBoot('Reading engine data…', 90, 'engine data'); await script(bins414.data); }
+  if (!window.GZ414) await script(bins414.driver);
 
   const mem = {};
   for (const [k, v] of Object.entries(stateFiles || {})) {
@@ -1353,9 +1354,6 @@ function handleAudio(m) {
       try { src.start(when, offset); } catch (_) { try { src.start(0, offset); } catch (__) {} }
       st.nodes.add(src);
       src.onended = () => { st.nodes.delete(src); };
-
-      S.audio.plays++;
-      S.audio.bytes += (m.ch0 ? m.ch0.length : 0) * 4 * channels;
       break;
     }
     case 'stop': {
@@ -2582,7 +2580,7 @@ async function init() {
     }
   });
   // Settings inputs
-  $('#set-res').onchange = (e) => { S.settings.res = e.target.value; saveSettings(); toast('Resolution applies the next time you press Play.', '', 3600); };
+  $('#set-res').onchange = (e) => { S.settings.res = e.target.value; saveSettings(); toast('Resolution applies the next time you press Start game.', '', 3600); };
   $('#set-filter').onchange = (e) => { S.settings.filter = e.target.value; saveSettings(); };
   $('#set-fpsmode').onchange = (e) => {
     S.settings.fpsMode = e.target.value;

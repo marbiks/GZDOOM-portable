@@ -4,7 +4,7 @@ UZDoom WebAssembly build (bundled engine)
 Provenance
 ----------
 Upstream engine : https://github.com/UZDoom/UZDoom   (g4.14.3, GZDoom 4.x fork)
-WASM port       : https://github.com/derpyder/uzdoom-wasm
+WASM port       : https://github.com/blahm1dplays/uzdoom-wasm
 Build taken from: https://rejectedcoins.com/uzdoom-smoke/  on 2026-11-21
                   (uzdoom.js, uzdoom.wasm, engine.worker.js and the engine PK3s)
 Version         : UZDoom g4.14.3, single-threaded.
@@ -32,13 +32,12 @@ bundle.js   Generated. One classic <script> that sets window.GZ_ENGINE_BUNDLE:
                         game_widescreen_gfx.pk3, lights.pk3 (gzip + base64)
             A file:// page may not fetch() its own files or start a worker from
             a file:// URL, but classic <script> tags work; the launcher turns
-            this bundle into a Blob worker. 20 MB, against 79 MB for the
-            pthreads build this replaced.
+            this bundle into a Blob worker.
 
 
 How it runs
 -----------
-Click Play: the launcher transfers the game canvas to a Web Worker, decodes the
+Press Start game: the launcher transfers the canvas to a Web Worker, decodes the
 wasm and archives with DecompressionStream, writes them into the engine's
 filesystem, then starts UZDoom with the selected IWAD and PWADs (same picker,
 same load order as the GZDoom engines). Nothing is fetched at runtime; the
@@ -61,10 +60,11 @@ filesystem:
 
 The worker watches both trees (the registry's saves.memRoot / memSaveRoot) and
 hands every new or changed file to the launcher, which stores it in this
-computer's browser storage with a `uz-` file-name prefix
-(`saves/uz-<slot>.zds`). That prefix keeps UZDoom from overwriting a GZDoom save
-of the same slot: both engines name their files doomsav0.zds. Restore maps the
-prefix back, so the engine always sees its own names.
+computer's browser storage under the launch's profile with a `uz-` file-name
+prefix (`prof/<profile>/saves/<game>/uz-<slot>.zds`). That prefix keeps UZDoom
+from overwriting a GZDoom save of the same slot: both engines name their files
+doomsav0.zds. Restore maps the prefix back, so the engine always sees its own
+names.
 
 
 Rebuilding bundle.js
@@ -76,20 +76,10 @@ URL above is the only source. Nothing in the launcher or the engines uses the
 network at run time.
 
 
-What was verified here
-----------------------
-Chromium 157, page opened as file:// (no server, no headers):
-
-- UZDoom boots, loads a test IWAD you supply, renders the title screen at
-  1920x1080 and the launcher reports 27-30 FPS in headless software GL.
-- Audio starts (Web Audio buffer-source counters) during the title and menu.
-- Engine log shows a normal UZDoom start-up; no worker or wasm errors.
-- Save restore was checked with a seeded file: a stored `saves/uz-test.zds` is
-  written into `/home/web_user/.local/share/games/uzdoom/savegames/test.zds` at boot,
-  a stored GZDoom save is ignored by UZDoom, and the reverse holds for GZDoom
-  4.11.3 (which still restores its unprefixed rows).
-
-Not verified for UZDoom in this folder: in-game mouse look and weapon switching,
-save round-trips, and mods beyond the test IWAD. Those are verified for the
-GZDoom engines only. This machine has no audio output device, so audio was
-measured as source starts, not listened to.
+What was verified
+-----------------
+UZDoom boots from file://, renders, and captures and restores saves under its
+own profile and `uz-` prefix. The verification record, including the save
+round-trip, is in PROVENANCE.md section 8; engine-level limits are in
+docs/COMPATIBILITY.md. Not covered: in-game mouse look and weapon switching,
+and mods beyond a test IWAD.

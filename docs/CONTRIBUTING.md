@@ -23,7 +23,8 @@ python3 -m py_compile tools/*.py dev/*.py
 ```
 
 Then open `index.html` from disk, start each engine with an IWAD you own, save
-once, quit, and confirm the save count increases. There is no build step and no
+once, quit, and confirm the save count increases. The launcher runs from the
+folder as-is; only the release folders need `tools/build.py`, and there is no
 package manager.
 
 If you change `engine/engine.worker.js`, regenerate the bundles that embed it:
@@ -48,13 +49,14 @@ defines `window.GZ_ENGINE_BUNDLE`; `launcher.js` already knows how to decode it.
 1. Bump `APP_VERSION` in `launcher.js` and the version chip in `index.html`.
 2. Add a `CHANGELOG.md` entry with what changed and any measurements.
 3. `python3 -m py_compile tools/*.py dev/*.py` passes.
-4. Each engine boots from `file://`, plays, saves and quits; the save count
-   rises and the next launch restores it.
+4. `python3 tools/build.py` writes `builds/normal/` and `builds/lite/`; each
+   engine boots from `file://` in `builds/normal/`, plays, saves and quits, the
+   save count rises and the next launch restores it.
 5. `git status` shows no game data, no save archive, no extracted build input
-   (`engine/uzdoom-src/`, `engine/gzdoom.js`, `engine/gzdoom.wasm`).
-6. `PROVENANCE.md` still lists the exact upstream tags and the source links for
-   every shipped binary (GPLv3 source availability).
-7. `licenses/` and `PROVENANCE.md` travel with the release; tag the commit and
+   (`engine/uzdoom-src/`, `engine/gzdoom/gzdoom.js`, `engine/gzdoom/gzdoom.wasm`).
+6. `../PROVENANCE.md` still lists the exact upstream tags and the source links for
+every shipped binary (GPLv3 source availability).
+7. `licenses/` and `../PROVENANCE.md` travel with the release; tag the commit and
    attach a source archive or keep the repository public.
 
 Publishing the repository or a release is a maintainer decision; nothing in the

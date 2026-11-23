@@ -81,7 +81,7 @@ per-source gain node, sample-accurate chaining, 40 ms lead + 200 ms join guard) 
 measured to be negligible and is kept. `README.md` sections were rewritten with the
 new numbers and the remaining limitation. All temporary instrumentation (bench auto-launch,
 worker audio event log, 10 ms liveness probe) has been removed from the shipped files;
-`engine/portable-engine.js` was regenerated with `tools/make-portable.py`.
+`engine/gzdoom/portable-engine.js` was regenerated with `tools/make-portable.py`.
 
 ## 7. Why it works
 

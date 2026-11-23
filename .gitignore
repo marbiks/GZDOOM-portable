@@ -1,5 +1,5 @@
-# Build output (tools/make-lite.py writes the lite folder here)
-build/
+# Build output (tools/build.py writes builds/normal and builds/lite here)
+builds/
 
 # Development leftovers
 dev/__pycache__/
@@ -15,9 +15,9 @@ Thumbs.db
 # Extracted engine build inputs (regenerate with the tools/ scripts)
 engine/uzdoom-src/
 engine/gzdoom414-src/
-engine/gzdoom.js
-engine/gzdoom.wasm
-engine/*.pk3
+engine/gzdoom/gzdoom.js
+engine/gzdoom/gzdoom.wasm
+engine/gzdoom/*.pk3
 
 # Workspace metadata (not part of the project)
 .freebuff/

@@ -6,10 +6,9 @@
 // the main thread lets the compositor pull frames from the OffscreenCanvas at
 // vsync regardless of how busy the engine is. That's the unlock.
 //
-// Audio: emscripten's OpenAL bridge checks `globalThis.AudioContext` in
-// `alcOpenDevice` and returns NULL when absent. Workers have no AudioContext,
-// so audio degrades to silent — acceptable for the MVP (per the 2026-05-15
-// perf handoff; audio re-routing is follow-up work).
+// Audio: workers have no AudioContext. The shim below captures OpenAL's PCM and
+// posts it to the page, which owns the real AudioContext and plays it through
+// BufferSourceNodes. Output is stereo; positional panning is flattened.
 
 'use strict';
 
@@ -187,11 +186,8 @@ const documentShim = Object.assign(docTarget, {
 const windowShim = Object.assign(winTarget, {
   id: '',
   nodeName: '#window',
-  // emscripten's openal bridge does `var AudioContext = window.AudioContext || window.webkitAudioContext`
-  // and the `_alcOpenDevice` check uses globalThis. Leave both undefined so the
-  // null-device fallback kicks in (audio is silent — by design for MVP).
-  AudioContext: undefined,
-  webkitAudioContext: undefined,
+  // emscripten's OpenAL bridge reads `window.AudioContext`; the shim class
+  // defined below is installed here and on globalThis before the engine starts.
   innerWidth: 320,
   innerHeight: 200,
   devicePixelRatio: 1,

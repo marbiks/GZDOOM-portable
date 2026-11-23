@@ -5,7 +5,7 @@ This folder ships engine code and no game data.
 
 GZDoom 4.11.3 (engine, wasm, Emscripten loader, gzdoom.pk3, game_support.pk3,
 game_widescreen_gfx.pk3, brightmaps.pk3, lights.pk3; the raw files are packed
-inside engine/portable-engine.js and engine/portable-data.js)
+inside engine/gzdoom/portable-engine.js and engine/gzdoom/portable-data.js)
   Copyright (c) ZDoom / GZDoom contributors.
   License: GNU General Public License v3 - see GPL-3.0.txt.
   Engine source: https://github.com/ZDoom/gzdoom (tag g4.11.3)

@@ -12,14 +12,13 @@ redistribute commercial Doom, Heretic, Hexen or Strife data.
 
 | Picker entry | Upstream | Release / commit | Shipped `engine/` artifact |
 | --- | --- | --- | --- |
-| GZDoom 4.11.3 | https://github.com/ZDoom/gzdoom | tag `g4.11.3` = `6ce809efe2902e43ceaa7031b875225d3a0367de` | `gzdoom.wasm` / `gzdoom.js` from the tomb-engine WebAssembly port (`mungus43/tomb-engine`, GPL-3.0), embedded into `portable-engine.js` |
+| GZDoom 4.11.3 | https://github.com/ZDoom/gzdoom | tag `g4.11.3` = `6ce809efe2902e43ceaa7031b875225d3a0367de` | `gzdoom.wasm` / `gzdoom.js` from the tomb-engine WebAssembly port (`mungus43/tomb-engine`, GPL-3.0), embedded into `engine/gzdoom/portable-engine.js` |
 | GZDoom 4.14.2 (Experimental) | https://github.com/ZDoom/gzdoom | tag `g4.14.2` = `99aa489d09015a95bb78df2b30ede29f328cc874`; the shipped binary's own banner is `GZDoom g4.14.2-1-ge0e0b26df` (tag + 1 commit) | `gzdoom.wasm`, `gzdoom.js`, `gzdoom.data` from `nbarkhina/ZDoomWeb` `dist/`, stored as `engine/gzdoom414/{wasm,glue,data}-b64.js` |
 | UZDoom 4.14.3 (Experimental) | https://github.com/UZDoom/UZDoom | tag `4.14.3` = `1cb7598afadbe7ffe753b2eaf1b887e58e988036` (released 2025-11-28) | `uzdoom.wasm` + glue + engine PK3s from `blahm1dplays/uzdoom-wasm` (formerly `derpyder/uzdoom-wasm`), single-threaded, packed in `engine/uzdoom/bundle.js` |
 
-The two `(Experimental)` entries are the same additions the project brief asks
-for: GZDoom 4.14.2 and UZDoom. They are independent of each other and of
-GZDoom 4.11.3 — separate binaries, separate boot paths, separate settings
-records and separate save namespaces.
+The two `(Experimental)` entries — GZDoom 4.14.2 and UZDoom — are independent of
+each other and of GZDoom 4.11.3: separate binaries, boot paths, settings records
+and save namespaces.
 
 ## 2. What "built from upstream" means for these binaries
 
@@ -76,7 +75,7 @@ Everything below is launcher-side or packaging:
 
 | Area | Change | File |
 | --- | --- | --- |
-| Packaging | Glue, wasm, engine data and PK3s delivered as classic `<script>` payloads (base64, gzip where useful) so nothing is fetched from `file://` | `engine/portable-*.js`, `engine/gzdoom414/*-b64.js`, `engine/uzdoom/bundle.js`, `tools/*.py` |
+| Packaging | Glue, wasm, engine data and PK3s delivered as classic `<script>` payloads (base64, gzip where useful) so nothing is fetched from `file://` | `engine/gzdoom/portable-*.js`, `engine/gzdoom414/*-b64.js`, `engine/uzdoom/bundle.js`, `tools/*.py` |
 | GZDoom 4.14.2 boot | `driver.js` feeds `getPreloadedPackage`/`wasmBinary`, writes MEMFS, calls `Module.callMain`, exports saves | `engine/gzdoom414/driver.js` |
 | UZDoom boot | Launcher's own worker replaces the port's page scripts (DOM/audio shims, input bridge, save watcher) | `engine/engine.worker.js`, `tools/make-uzdoom-bundle.py` |
 | Mouse look | **Invert mouse Y** setting (default off, per engine) drives `+set invertmouse 0|1`; the 4.14-era builds feed vertical motion with the opposite sign to 4.11.3 | `launcher.js` (`DEFAULT_SETTINGS.invertY`, `readSettingsArgs()`), `index.html` |
@@ -162,8 +161,8 @@ probe passed, the engine booted, no fatal screen.
 
 Not verified: real-mouse look direction (pointer lock is refused in every local
 browser session, so only a real mouse can confirm it), UZDoom's in-game
-wheel behaviour, and mods beyond the test IWAD. See `COMPATIBILITY.md` for
-the engine-level findings and `CHANGELOG.md` for what changed when.
+wheel behaviour, and mods beyond the test IWAD. See `docs/COMPATIBILITY.md`
+for the engine-level findings and `docs/CHANGELOG.md` for what changed when.
 
 ## 9. Source availability (GPLv3)
 

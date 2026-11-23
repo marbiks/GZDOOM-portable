@@ -22,8 +22,3 @@ AUDIO_PERFORMANCE_REPORT.md
   The audio/pacing investigation behind the ADL MIDI tuning (one chip, PCM
   rate, Nuked core): measurements, rejected alternatives and limits. Kept out
   of the top-level folder because it is engineering notes, not user docs.
-
-Removed in 1.5.1: index-singlethread.html (the old main-thread harness that
-needed an HTTP server) and mainthread-probe.html (a main-thread boot used to tell
-engine-side audio bugs from worker-side ones). Both were superseded - the worker
-build boots from file:// and the audio question they answered is settled.
